@@ -13,13 +13,13 @@ void on_button_clicked(GtkButton *button, gpointer user_data) {
 
 gboolean on_button_enter(GtkWidget *widget, GdkEventCrossing *event, gpointer user_data) {
     GtkWidget *image_widget = GTK_WIDGET(user_data);
-    gtk_image_set_from_file(GTK_IMAGE(image_widget), "/home/fizza/Desktop/OsProject/Intro_Hover.png");
+    gtk_image_set_from_file(GTK_IMAGE(image_widget), "Intro_Hover.png");
     return FALSE;
 }
 
 gboolean on_button_leave(GtkWidget *widget, GdkEventCrossing *event, gpointer user_data) {
     GtkWidget *image_widget = GTK_WIDGET(user_data);
-    gtk_image_set_from_file(GTK_IMAGE(image_widget), "/home/fizza/Desktop/OsProject/Intro.png");
+    gtk_image_set_from_file(GTK_IMAGE(image_widget), "Intro.png");
     return FALSE;
 }
 
@@ -84,7 +84,7 @@ void image_viewer_main(int argc, char *argv[]) {
     gtk_widget_show_all(window);
 
     // Set the initial image synchronously
-    gtk_image_set_from_file(GTK_IMAGE(image_widget), "/home/fizza/Desktop/OsProject/Intro.png");
+    gtk_image_set_from_file(GTK_IMAGE(image_widget), "Intro.png");
 
     gtk_main();
 }
