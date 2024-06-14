@@ -96,6 +96,8 @@ system("clear");
    // Process customers from the extra waiting line
    process_extra_waiting_line(ride_customers);
    
+   display_revenue();
+   
    printf("\n\n We hope everyone had a fantastic time enjoying the rides at our theme park!\n");
 
     // Destroy semaphores
@@ -296,6 +298,9 @@ fclose(menu_file);
 
     // Write headers
     fprintf(revenue_file, "Category, Revenue\n");
+    
+    // Write rides revenue
+    fprintf(revenue_file, "Rides, %.2f\n", ride_revenue);
 
     // Write haunted house revenue
     fprintf(revenue_file, "Haunted House, %d\n", hauntedHouse_revenue);
@@ -304,7 +309,7 @@ fclose(menu_file);
     fprintf(revenue_file, "Food Court, %.2f\n", FoodCourt_revenue);
 
     // Calculate total revenue
-    double totalRevenue = hauntedHouse_revenue + FoodCourt_revenue;
+    double totalRevenue = ride_revenue + hauntedHouse_revenue + FoodCourt_revenue;
 
     // Write total revenue
     fprintf(revenue_file, "Total Revenue, %.2f\n", totalRevenue);
@@ -315,4 +320,3 @@ fclose(menu_file);
      
      return 0;  
 }
-
