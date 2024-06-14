@@ -11,11 +11,18 @@ Ride rides[NUM_RIDES];
 pthread_mutex_t extra_waiting_line_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t ride_mutexes[NUM_RIDES];
 ExtraWaitingLine extra_waiting_line;
+float ride_revenue = 0.0;
 
 void generate_tickets(int num_customers, Customer ride_customers[MAX_CUSTOMERS]) {
     char ride_names[NUM_RIDES][50] = {"Roller Coaster", "Ferris Wheel", "Bumper Cars", "Gravity Drop", "Flying Carpet"};
+    float ride_prices[NUM_RIDES] = {10.0, 7.5, 5.0, 12.0, 8.0}; // Prices for each ride
 
-
+    for (int i = 0; i < NUM_RIDES; i++) {
+        rides[i].price = ride_prices[i];
+        
+        rides[i].revenue = 0.0;
+    }
+    
     for (int i = 0; i < num_customers; i++) {
         int validName = 0; // Flag to track if a valid name has been entered
 
@@ -47,7 +54,8 @@ void generate_tickets(int num_customers, Customer ride_customers[MAX_CUSTOMERS])
         printf("Available rides:\n");
         for (int j = 0; j < NUM_RIDES; j++) {
             if (rides[j].capacity > 0) {
-                printf("%d. %s\n", j + 1, ride_names[j]);
+                printf("%d. %s: %f \n", j + 1, ride_names[j], ride_prices[j]);
+             
                 anyRideAvailable = 1; // Set the flag to indicate that at least one ride is available
             }
         }
@@ -191,51 +199,41 @@ void* customer_thread(void* arg) {
 
 void display_and_serve_customers(int num_customers, Customer ride_customers[MAX_CUSTOMERS]) {
     // Display waiting lines before serving customers
-   
     printf("\nWaiting lines for each ride in the order of customers arrival after they are enqueued:\n");
-   
     for (int ride = 0; ride < NUM_RIDES; ride++) {
-   
-        printf("Ride %d Waiting Line \n", ride + 1);
+        printf("Ride %d Waiting Line\n", ride + 1);
         Ride* current_ride = &rides[ride];
         CustomerNode* current_customer = current_ride->queue;
-       
+
         while (current_customer != NULL) {
             printf("%s (VIP: %s)\n", current_customer->name, current_customer->isVIP ? "Yes" : "No");
             current_customer = current_customer->next;
         }
         printf("\n");
     }
+
     // Serve customers according to the order of priority and FCFS
     printf("Serving customers:\n");
     for (int ride = 0; ride < NUM_RIDES; ride++) {
         Ride* current_ride = &rides[ride];
         int customers_served = 0; // Flag to track if customers were served for this ride
-        while (current_ride->queue != NULL)
-        {
+        while (current_ride->queue != NULL) {
             CustomerNode* current_customer = dequeue(current_ride);
-            printf("Customer %s entered Ride %d\n", current_customer->name, current_customer->ride);
             printf("Customer %s served for Ride %d\n", current_customer->name, current_customer->ride);
+            
+            // Update revenue
+            current_ride->revenue += current_ride->price;
+            ride_revenue += current_ride->price;
+
             free(current_customer);
-           
+
             // Introduce a delay after serving each customer
-            usleep(1000000);
+            usleep(1000000); // 1 second delay
             customers_served = 1; // Set the flag to indicate customers were served for this ride
         }
-        // Release ride's capacity after serving customers
         if (customers_served) {
-           printf("\n");
-            sem_post(&current_ride->sem_capacity); // Increment ride's capacity
-            printf("Ride %d capacity released.\n\n", ride + 1); //after all customers of one ride are served
+            printf("\n");
             usleep(2000000); // 2 second delay after serving each ride if customers were served
-        }
-    }
-   
-    // Print extra waiting line
-    printf("Printing Extra Waiting Line: \n");
-    for (int i = 0; i < num_customers; i++) {
-        if (ride_customers[i].ride == -1) {
-            printf("%s \n", ride_customers[i].name);
         }
     }
 }
@@ -295,7 +293,7 @@ void process_extra_waiting_line(Customer ride_customers[MAX_CUSTOMERS]) {
         enqueue(&rides[chosen_ride - 1], customer);
         printf("\n Customer %s entered Ride %d\n", customer->name, chosen_ride);
         printf("Customer %s queued for Ride %d\n", customer->name, chosen_ride);
-       
+        
         pthread_mutex_unlock(&ride_mutexes[chosen_ride - 1]);
          
         // Update ride capacity after enqueuing
@@ -316,7 +314,6 @@ void process_extra_waiting_line(Customer ride_customers[MAX_CUSTOMERS]) {
 void serve_customers_in_waiting_lines() {
     printf("\nServing customers from waiting lines:\n");
 
-
     for (int ride = 0; ride < NUM_RIDES; ride++)
     {
         Ride* current_ride = &rides[ride];
@@ -324,7 +321,10 @@ void serve_customers_in_waiting_lines() {
        
         while (current_ride->queue != NULL) {
             CustomerNode* current_customer = dequeue(current_ride);
-            printf("Customer %s served for Ride %d\n", current_customer->name, ride+1);
+             // Update revenue
+            current_ride->revenue += current_ride->price;
+            ride_revenue += current_ride->price;
+            
             free(current_customer);
            
             // Introduce a delay after serving each customer
@@ -336,6 +336,7 @@ void serve_customers_in_waiting_lines() {
             usleep(2000000); // 2 second delay after serving each ride if customers were served
         }
     }
+ 
 }
 
 
@@ -389,7 +390,11 @@ CustomerNode* dequeue(Ride* ride)
     return dequeued_customer;
   }
 
-
-
-
+void display_revenue() {
+    printf("\nRevenue generated by each ride:\n");
+    for (int ride = 0; ride < NUM_RIDES; ride++) {
+        printf("Ride %d: $%.2f\n", ride + 1, rides[ride].revenue);
+    }
+    printf("Total revenue from all rides: $%.2f\n", ride_revenue);
+}
 
