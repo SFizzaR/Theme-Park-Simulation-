@@ -22,12 +22,13 @@ typedef struct CustomerNode {
     struct CustomerNode* next;
 } CustomerNode;
 
-typedef struct {
-    sem_t sem_capacity;
-    CustomerNode* queue;
+typedef struct Ride {
     int capacity;
+    CustomerNode* queue;
+    float price;    // Add price attribute
+    float revenue;  // Add revenue attribute
+    sem_t sem_capacity;
 } Ride;
-
 typedef struct {
     Customer extra_waiting_customers[MAX_EXTRA_WAITING_CUSTOMERS];
     int num_extra_waiting_customers;
@@ -38,6 +39,7 @@ extern Ride rides[NUM_RIDES];
 extern pthread_mutex_t ride_mutexes[NUM_RIDES];
 extern pthread_mutex_t extra_waiting_line_mutex;
 extern ExtraWaitingLine extra_waiting_line;
+extern float ride_revenue;
 
 void* customer_thread(void* arg);
 void generate_tickets(int num_customers, Customer ride_customers[MAX_CUSTOMERS]);
@@ -48,6 +50,6 @@ CustomerNode* enqueue_waiting_line(void* ride_or_waiting_line, Customer* custome
 CustomerNode* dequeue(Ride* ride);
 void process_extra_waiting_line(Customer ride_customers[MAX_CUSTOMERS]);
 void serve_customers_in_waiting_lines();
+void display_revenue();
 
 #endif /* RIDES_H */
-
