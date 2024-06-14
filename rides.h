@@ -40,6 +40,8 @@ extern pthread_mutex_t ride_mutexes[NUM_RIDES];
 extern pthread_mutex_t extra_waiting_line_mutex;
 extern ExtraWaitingLine extra_waiting_line;
 extern float ride_revenue;
+extern char ride_names[NUM_RIDES][50];
+extern float ride_prices[NUM_RIDES];
 
 void* customer_thread(void* arg);
 void generate_tickets(int num_customers, Customer ride_customers[MAX_CUSTOMERS]);
