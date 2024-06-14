@@ -103,11 +103,13 @@ If you would like to contribute to the project, please fork the repository and s
 3. Commit your changes to your branch.
 4. Submit a pull request with a detailed description of your changes.
 
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+## Authors
+- [Syeda Fizza](https://github.com/SFizzaR) 
+- [Falah Zainab](https://github.com/FalahZainab)
+- [Saim Saad](https://github.com/msaimsaad)
 
 ---
+
 
 Enjoy your visit to the virtual theme park! If you have any questions or feedback, please feel free to reach out.
 
