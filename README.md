@@ -1,7 +1,3 @@
-Certainly! Here is a refined and detailed README for your Theme Park Simulation project:
-
----
-
 # Theme Park Simulation
 
 ## Introduction
