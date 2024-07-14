@@ -110,3 +110,4 @@ If you would like to contribute to the project, please fork the repository and s
 Enjoy your visit to the virtual theme park! If you have any questions or feedback, please feel free to reach out.
 
 ---
+Credits to [Muhammad Raza](https://github.com/completelyblank) for his valuable contribution to the intro pages of this project. 
