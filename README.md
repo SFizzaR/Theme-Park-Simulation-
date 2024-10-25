@@ -101,7 +101,7 @@ If you would like to contribute to the project, please fork the repository and s
 
 ## Authors
 - [Syeda Fizza](https://github.com/SFizzaR) 
-- [Falah Zainab](https://github.com/FalahZainab)
+- [Falah Zainab](https://github.com/FalahZKhan)
 - [Saim Saad](https://github.com/msaimsaad)
 
 ---
