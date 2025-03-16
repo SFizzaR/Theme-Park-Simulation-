@@ -2,8 +2,6 @@
 
 Welcome to the **Theme Park Simulation**! This project is a **virtual theme park experience** implemented in **C**, featuring rides, trivia challenges, a haunted house (18+), and a food court with a **real-time revenue tracking system**.  
 
----
-
 ## ✨Features✨
 
 ### 🏁 **Intro Page**  
