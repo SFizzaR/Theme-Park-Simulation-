@@ -20,9 +20,7 @@ Welcome to the **Theme Park Simulation**! This project is a **virtual theme park
 - **Menu loaded from a CSV file** for easy customization.  
 - Visitors can **buy multiple items** in any quantity.  
 - Generates a **detailed receipt** after every purchase.  
-- **Revenue updates in real-time** and is stored in a CSV file.  
-
----
+- **Revenue updates in real-time** and are stored in a CSV file.  
 
 ## 🛠️ Tech Stack  
 
@@ -83,7 +81,7 @@ Total,2500.00
 
 ## 🤝 Contributions  
 
-Contributions are welcome! 🎉 If you’d like to **enhance the simulation**, follow these steps:  
+Contributions are welcome! If you'd like to help, fork the repo, create a new branch, and submit a pull request.
 
 ### 🎗 Special Thanks  
 💡 **Credits to [completelyblank](https://github.com/completelyblank)** for his valuable contribution to the **intro pages** of this project.  
